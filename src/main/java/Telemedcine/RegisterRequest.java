@@ -1,12 +1,22 @@
-package Telemedcine.cwa.telemedcine.dto;
-
+package Telemedcine;
 public class RegisterRequest {
     private String nom;
     private String email;
     private String password;
-    private String role;
+    private String role; 
 
-    // Getter and Setter for nom
+  
+    public RegisterRequest() {}
+
+ 
+    public RegisterRequest(String nom, String email, String password, String role) {
+        this.nom = nom;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+  
     public String getNom() {
         return nom;
     }
@@ -15,7 +25,6 @@ public class RegisterRequest {
         this.nom = nom;
     }
 
-    // Getter and Setter for email
     public String getEmail() {
         return email;
     }
@@ -24,7 +33,6 @@ public class RegisterRequest {
         this.email = email;
     }
 
-    // Getter and Setter for password
     public String getPassword() {
         return password;
     }
@@ -33,7 +41,6 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    // Getter and Setter for role
     public String getRole() {
         return role;
     }

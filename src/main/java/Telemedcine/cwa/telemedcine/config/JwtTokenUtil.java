@@ -17,19 +17,17 @@ public class JwtTokenUtil {
     }
 
     public String generateToken(String username) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateToken'");
     }
 
     public boolean validateToken(String token) {
-        // TODO Auto-generated method stub
+      
         throw new UnsupportedOperationException("Unimplemented method 'validateToken'");
     }
 
     public String extractUsername(String token) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'extractUsername'");
     }
 
-    // Tes méthodes ici...
+   
 }

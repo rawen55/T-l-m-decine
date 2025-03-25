@@ -1,37 +1,23 @@
 package Telemedcine.cwa.telemedcine.contoller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import Telemedcine.cwa.telemedcine.model.User;
-import Telemedcine.cwa.telemedcine.service.UserService;
-
+import Telemedcine.cwa.telemedcine.repositories.UserRepository;
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/")
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
-    @PostMapping("/register")
-public ResponseEntity<User> registerUser(@RequestBody User user) {
-    try {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.ok(createdUser);
-    } catch (RuntimeException e) {
-        return ResponseEntity.badRequest().body(null);
+    // get all users
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
-
-@GetMapping("/find")
-public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
-    User user = userService.findByEmail(email);
-    if (user != null) {
-        return ResponseEntity.ok(user);
-    } else {
-        return ResponseEntity.notFound().build();
-    }
-}
-
-    }
-

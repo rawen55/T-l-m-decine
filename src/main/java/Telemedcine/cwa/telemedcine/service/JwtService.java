@@ -69,4 +69,9 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    public Long getUserIdFromJwt(String jwtToken) {
+        
+        throw new UnsupportedOperationException("Unimplemented method 'getUserIdFromJwt'");
+    }
 }

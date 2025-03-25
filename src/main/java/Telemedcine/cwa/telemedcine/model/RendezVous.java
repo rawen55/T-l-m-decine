@@ -1,13 +1,33 @@
 package Telemedcine.cwa.telemedcine.model;
 
-
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rendez_vous")
 public class RendezVous {
+
+    public static void save(RendezVous rdv) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public static Optional<RendezVous> findById(Long id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +49,19 @@ public class RendezVous {
     @Column(columnDefinition = "TEXT")
     private String rapport;
 
+    // Constructeurs
+    public RendezVous() {
+    }
+
+    public RendezVous(User patient, User medecin, LocalDateTime dateHeure, StatutRdv statut, String rapport) {
+        this.patient = patient;
+        this.medecin = medecin;
+        this.dateHeure = dateHeure;
+        this.statut = statut;
+        this.rapport = rapport;
+    }
+
+    // Getters et Setters
     public Long getId() {
         return id;
     }
@@ -77,16 +110,16 @@ public class RendezVous {
         this.rapport = rapport;
     }
 
-    public static void save(RendezVous rdv) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    @Override
+    public String toString() {
+        return "RendezVous{" +
+                "id=" + id +
+                ", patient=" + (patient != null ? patient.getId() : "null") +
+                ", medecin=" + (medecin != null ? medecin.getId() : "null") +
+                ", dateHeure=" + dateHeure +
+                ", statut=" + statut +
+                ", rapport='" + rapport + '\'' +
+                '}';
     }
-
-    public static Optional<RendezVous> findById(Long id2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    // Getters et Setters
 }
 

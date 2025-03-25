@@ -1,46 +1,66 @@
 package Telemedcine.cwa.telemedcine.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
+
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "first_name")
     private String nom;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "last_name")
+    private String prenom;
+
+    @Column(name = "email_id")
     private String email;
 
-    @Column(nullable = false) // Obligatoire pour Spring Security
+    @Column(name = "password") 
     private String password;
 
-    @Enumerated(EnumType.STRING) // Permet de stocker l'énumération sous forme de texte en base de données
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING) 
+    @Column(name = "role")
     private Role role;
 
     public  User() {}
 
-    public User(String nom, String email, String password, Role role) {
+    public User(String nom,String prenom, String email, String password, Role role) {
         this.nom = nom;
+        this.prenom=prenom;
         this.email = email;
         this.password = password;
         this.role = role;
     }
+    public void sInscrire() {
+        // Logique d'inscription
+    }
+
+    public void seConnecter() {
+        // Logique de connexion
+    }
+
 
     // Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getNom() { return nom; }
-    public void setNom(String nom) { this.nom = nom; }
+    public void setNom(Object nom) { this.nom = (String) nom; }
 
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(Object email) { this.email = (String) email; }
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
@@ -49,7 +69,16 @@ public class User {
     public void setRole(Role role) { this.role = role; }
 
     public Object map(Object object) {
-        // TODO Auto-generated method stub
+       
         throw new UnsupportedOperationException("Unimplemented method 'map'");
+    }
+
+    public void setPrenom(Object prenom2) {
+        
+        throw new UnsupportedOperationException("Unimplemented method 'setPrenom'");
+    }
+
+    public String getPrenom() {
+        return prenom;
     }
 }

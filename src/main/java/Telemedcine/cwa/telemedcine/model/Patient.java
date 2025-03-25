@@ -6,15 +6,34 @@ import jakarta.persistence.*;
 @DiscriminatorValue("PATIENT")
 public class Patient extends User {
 
-        @Column(nullable = true)
-        private String dossierMedical; // Un champ spécifique au patient
-    
-       
-    
-        public Patient(String nom, String email,Role role, String password, String dossierMedical) {
-            super(nom, email, password, role);
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private DossierMedical dossierMedical;
+
+    public Patient() {
+        super(); // Nécessaire pour Hibernate
+    }
+
+    public Patient(String nom, String prenom, String email, Role role, String password) {
+        super(nom, prenom, email, password, role);
+    }
+
+    public DossierMedical getDossierMedical() {
+        return dossierMedical;
+    }
+
+    public void setDossierMedical(DossierMedical dossierMedical) {
         this.dossierMedical = dossierMedical;
     }
-    public String getDossierMedical() { return dossierMedical; }
-    public void setDossierMedical(String dossierMedical) { this.dossierMedical = dossierMedical; }
+
+    public void chercherMedecin() {
+        // Logique pour chercher un médecin
+    }
+
+    public void demanderConsultation() {
+        // Logique pour demander une consultation
+    }
+
+    public void recevoirNotification() {
+        // Logique pour recevoir une notification
+    }
 }

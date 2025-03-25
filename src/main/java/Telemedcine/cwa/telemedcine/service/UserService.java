@@ -1,41 +1,40 @@
 package Telemedcine.cwa.telemedcine.service;
-import java.util.List;
-
-import Telemedcine.cwa.telemedcine.model.*;
-import Telemedcine.cwa.telemedcine.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
+import Telemedcine.cwa.telemedcine.dto.UserUpdateDTO;
+import Telemedcine.cwa.telemedcine.model.Medecin;
+import Telemedcine.cwa.telemedcine.repositories.UserRepository;
+
 @Service
 public class UserService {
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
 
-    public User createUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Cet email est déjà utilisé !");
-        }
-        return userRepository.save(user);
-    }
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
-    }
-    
     @Autowired
-    private UserRepository userRepository;
+    private JwtService jwtService;  
 
-    @Transactional
-    public void createUsers() {
-        Patient patient = new Patient("Ali", "ali@example.com", null, "password123", "Dossier N°123");
-        Medecin medecin = new Medecin("Dr. Karim", "karim@example.com", "med123", null, "Cardiologue", "12345");
-        Admin admin = new Admin("Admin", "admin@example.com", null, "adminpass", "SUPER_ADMIN");
+    @Autowired
+    private UserRepository utilisateurRepository;
 
-        userRepository.save(patient);
-        userRepository.save(medecin);
-        userRepository.save(admin);
+    // Méthode pour mettre à jour le profil de l'utilisateur avec le JWT
+    public Telemedcine.cwa.telemedcine.model.User updateProfile(String jwtToken, UserUpdateDTO updateDTO) {
+        // Décoder le JWT pour obtenir l'ID de l'utilisateur
+        Long userId = jwtService.getUserIdFromJwt(jwtToken);
 
-        System.out.println("Utilisateurs créés avec succès !");
+        // Récupérer l'utilisateur à partir de la base de données
+        Telemedcine.cwa.telemedcine.model.User user = utilisateurRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé !"));
+
+        // Mettre à jour les informations de l'utilisateur
+        if (updateDTO.getNom() != null) user.setNom(updateDTO.getNom());
+        if (updateDTO.getPrenom() != null) user.setPrenom(updateDTO.getPrenom());
+        if (updateDTO.getEmail() != null) user.setEmail(updateDTO.getEmail());
+
+        // Si c'est un médecin, on met à jour la spécialité
+        if (user instanceof Medecin && updateDTO.getSpecialite() != null) {
+            ((Medecin) user).setSpecialite(updateDTO.getSpecialite());
+        }
+
+        // Sauvegarder l'utilisateur mis à jour
+        return utilisateurRepository.save(user);
     }
 }
